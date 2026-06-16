@@ -7,22 +7,17 @@
 #include "Renderer/OpenGL.hpp"
 
 Application::Application(const ApplicationConfig& config)
-    : m_Config(config), m_EventManager(), m_Window(config, m_EventManager) {
+    : m_Config(config),
+      m_EventManager(),
+      m_InputSystem(m_EventManager),
+      m_Window(config, m_EventManager, m_InputSystem) {
     if (!gladLoadGL(glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }
 
-    m_EventManager.Subscribe([this](const Event& event) {
-        if (event.GetEventType() != EventType::KeyPressed) {
-            return;
-        }
-
-        const auto& keyEvent = static_cast<const KeyPressedEvent&>(event);
-
-        if (keyEvent.GetKey() == GLFW_KEY_Q) {
-            m_Window.Close();
-        }
-    });
+    // Subscribe InputSystem to handle key events
+    m_EventManager.Subscribe(
+        [this](const Event& event) { m_InputSystem.OnEvent(event); });
 }
 
 void Application::Run() {

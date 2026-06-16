@@ -4,6 +4,7 @@ enum class EventType {
     None,
     KeyPressed,
     KeyReleased,
+    WindowClose,
 };
 
 class Event {

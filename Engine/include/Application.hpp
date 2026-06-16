@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ApplicationConfig.hpp"
+#include "InputSystem.hpp"
 #include "Window.hpp"
 
 class Application {
@@ -11,6 +12,7 @@ class Application {
 
    private:
     ApplicationConfig m_Config;
-    Window m_Window;
     EventManager m_EventManager;
+    InputSystem m_InputSystem;
+    Window m_Window;
 };
