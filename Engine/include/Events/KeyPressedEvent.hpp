@@ -7,4 +7,6 @@ class KeyPressedEvent : public KeyEvent {
     using KeyEvent::KeyEvent;
 
     EventType GetEventType() const override { return EventType::KeyPressed; }
+
+    int GetKey() const { return GetKeyCode(); }
 };
