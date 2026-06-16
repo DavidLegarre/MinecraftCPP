@@ -1,12 +1,12 @@
-#include "Engine/Application.hpp"
+
+#include "Application.hpp"
 
 #include <stdexcept>
 
-#include "Engine/Application.hpp"
-#include "Engine/Renderer/OpenGL.hpp"
+#include "Renderer/OpenGL.hpp"
 
 Application::Application(const ApplicationConfig& config)
-    : m_Config(config), m_Window(config) {
+    : m_Config(config), m_EventManager(), m_Window(config, m_EventManager) {
     if (!gladLoadGL(glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }

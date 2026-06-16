@@ -17,9 +17,10 @@ target_include_directories(glad
         External/glad/include
 )
 
+file(GLOB_RECURSE ENGINE_SOURCES "Engine/src/*.cpp")
+
 add_library(Engine
-    Engine/src/Application.cpp
-    Engine/src/Window.cpp
+    ${ENGINE_SOURCES}
 )
 
 target_include_directories(Engine
