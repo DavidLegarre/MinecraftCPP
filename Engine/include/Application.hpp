@@ -3,6 +3,8 @@
 #include "ApplicationConfig.hpp"
 #include "InputSystem.hpp"
 #include "Window.hpp"
+#include "Renderer/OpenGLRenderer.hpp"
+#include <memory>
 
 class Application {
    public:
@@ -15,4 +17,5 @@ class Application {
     EventManager m_EventManager;
     InputSystem m_InputSystem;
     Window m_Window;
+    std::unique_ptr<OpenGLRenderer> m_Renderer;
 };
