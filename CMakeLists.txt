@@ -17,17 +17,41 @@ target_include_directories(glad
         External/glad/include
 )
 
+add_library(Engine
+    Engine/src/Application.cpp
+    Engine/src/Window.cpp
+)
+
+target_include_directories(Engine
+    PUBLIC
+        Engine/include
+)
+
+target_link_libraries(Engine
+    PUBLIC
+        glad
+        ${GLFW_LIBRARIES}
+)
+
 add_executable(Minecraft
     Game/src/main.cpp
 )
 
-target_include_directories(Minecraft
-    PRIVATE
-        ${GLFW_INCLUDE_DIRS}
-)
-
 target_link_libraries(Minecraft
     PRIVATE
-        glad
-        ${GLFW_LIBRARIES}
+        Engine
 )
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_options(
+        -g
+        -O0
+        -fsanitize=address
+        -fsanitize=undefined
+    )
+
+    add_link_options(
+        -fsanitize=address
+        -fsanitize=undefined
+    )
+endif()
