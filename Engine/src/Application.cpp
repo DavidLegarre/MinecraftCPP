@@ -14,6 +14,9 @@ Application::Application(const ApplicationConfig& config)
 
 void Application::Run() {
     while (!m_Window.ShouldClose()) {
+        if (glfwGetKey(m_Window.GetNativeWindow(), GLFW_KEY_Q) == GLFW_PRESS) {
+            m_Window.Close();
+        }
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 

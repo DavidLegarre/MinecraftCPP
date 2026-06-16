@@ -13,6 +13,7 @@ class Window {
 
     void PollEvents() const;
     void SwapBuffers() const;
+    void Close();
 
     GLFWwindow* GetNativeWindow() const;
 
