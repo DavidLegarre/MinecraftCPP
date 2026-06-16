@@ -4,10 +4,12 @@
 #include "Events/EventManager.hpp"
 
 struct GLFWwindow;
+class InputSystem;
 
 class Window {
    public:
-    Window(const ApplicationConfig& config, EventManager& eventManager);
+    Window(const ApplicationConfig& config, EventManager& eventManager,
+           InputSystem& inputSystem);
     ~Window();
 
     bool ShouldClose() const;

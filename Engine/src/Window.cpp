@@ -3,12 +3,14 @@
 #include <stdexcept>
 
 #include "Events/Event.hpp"
-#include "Events/KeyPressedEvent.hpp"
 #include "Events/EventManager.hpp"
+#include "Events/KeyPressedEvent.hpp"
+#include "InputSystem.hpp"
 #include "Renderer/OpenGL.hpp"
 
 // Window Constructor
-Window::Window(const ApplicationConfig& config, EventManager& eventManager)
+Window::Window(const ApplicationConfig& config, EventManager& eventManager,
+               InputSystem& inputSystem)
     : m_Window(nullptr), m_EventManager(eventManager) {
     if (!glfwInit()) {
         throw std::runtime_error("Failed to initialize GLFW");
@@ -30,6 +32,13 @@ Window::Window(const ApplicationConfig& config, EventManager& eventManager)
     glfwSetKeyCallback(m_Window, KeyCallback);
 
     glfwMakeContextCurrent(m_Window);
+
+    // Subscribe to input actions
+    inputSystem.Subscribe([this](InputAction action) {
+        if (action == InputAction::CloseWindow) {
+            this->Close();
+        }
+    });
 }
 
 // Window Destructor
