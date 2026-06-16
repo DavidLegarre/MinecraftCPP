@@ -1,5 +1,5 @@
-#include "Engine/Application.hpp"
-#include "Engine/ApplicationConfig.hpp"
+#include "Application.hpp"
+#include "ApplicationConfig.hpp"
 
 int main() {
     ApplicationConfig config;

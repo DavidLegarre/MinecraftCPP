@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/ApplicationConfig.hpp"
-#include "Engine/Window.hpp"
+#include "ApplicationConfig.hpp"
+#include "Window.hpp"
 
 class Application {
    public:
@@ -12,4 +12,5 @@ class Application {
    private:
     ApplicationConfig m_Config;
     Window m_Window;
+    EventManager m_EventManager;
 };
