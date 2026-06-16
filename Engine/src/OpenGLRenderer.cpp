@@ -40,6 +40,12 @@ void OpenGLRenderer::EndFrame() {
     // Nothing needed here for now
 }
 
+void OpenGLRenderer::DrawMesh(const Mesh& mesh) {
+    // This is a placeholder implementation that draws a triangle
+    // In a real implementation, this would render the actual mesh
+    RenderTriangle();
+}
+
 void OpenGLRenderer::RenderTriangle() {
     glUseProgram(m_ShaderProgram);
     glBindVertexArray(m_VAO);

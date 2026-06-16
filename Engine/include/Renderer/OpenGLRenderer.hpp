@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Renderer/IRenderer.hpp"
 #include <glad/gl.h>
-#include <GLFW/glfw3.h>
+#include "Renderer/IRenderer.hpp"
 
 class OpenGLRenderer : public IRenderer {
    public:
@@ -10,6 +9,7 @@ class OpenGLRenderer : public IRenderer {
     ~OpenGLRenderer() override;
 
     void BeginFrame() override;
+    void DrawMesh(const Mesh& mesh) override;
     void EndFrame() override;
 
     void RenderTriangle();
