@@ -1,11 +1,9 @@
-
 #include "Application.hpp"
 
 #include <memory>
 #include <stdexcept>
 
 #include "Events/KeyPressedEvent.hpp"
-#include "Renderer/OpenGL.hpp"
 #include "Renderer/OpenGLRenderer.hpp"
 
 Application::Application(const ApplicationConfig& config)
@@ -27,10 +25,9 @@ Application::Application(const ApplicationConfig& config)
 
 void Application::Run() {
     while (!m_Window.ShouldClose()) {
-        glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        m_Renderer->RenderTriangle();
+        m_Renderer->BeginFrame();
+        m_Renderer->DrawScene();
+        m_Renderer->EndFrame();
 
         m_Window.SwapBuffers();
         m_Window.PollEvents();

@@ -3,7 +3,7 @@
 #include "ApplicationConfig.hpp"
 #include "InputSystem.hpp"
 #include "Window.hpp"
-#include "Renderer/OpenGLRenderer.hpp"
+#include "Renderer/IRenderer.hpp"
 #include <memory>
 
 class Application {
@@ -17,5 +17,5 @@ class Application {
     EventManager m_EventManager;
     InputSystem m_InputSystem;
     Window m_Window;
-    std::unique_ptr<OpenGLRenderer> m_Renderer;
+    std::unique_ptr<IRenderer> m_Renderer;
 };

@@ -12,9 +12,16 @@ add_library(glad
     External/glad/src/gl.c
 )
 
+add_library(stb_image INTERFACE)
+
 target_include_directories(glad
     PUBLIC
         External/glad/include
+)
+
+target_include_directories(stb_image
+    INTERFACE
+        External/stb/include
 )
 
 file(GLOB_RECURSE ENGINE_SOURCES "Engine/src/*.cpp")
@@ -31,11 +38,13 @@ target_include_directories(Engine
 target_link_libraries(Engine
     PUBLIC
         glad
+        stb_image
         ${GLFW_LIBRARIES}
 )
 
 add_executable(Minecraft
     Game/src/main.cpp
+    Game/src/load_image.cpp
 )
 
 target_link_libraries(Minecraft

@@ -10,5 +10,7 @@ class IRenderer {
 
     virtual void DrawMesh(const Mesh& mesh) = 0;
 
+    virtual void DrawScene() = 0;
+
     virtual void EndFrame() = 0;
 };
