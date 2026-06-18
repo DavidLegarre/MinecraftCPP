@@ -8,22 +8,14 @@
 
 extern unsigned char* load_stone_image(int& width, int& height, int& channels);
 
-// Helper to check GL errors
-static void CheckGLError(const char* label) {
-    GLenum err = glGetError();
-    if (err != GL_NO_ERROR) {
-        std::cerr << "GL Error at " << label << ": " << std::hex << err
-                  << std::dec << std::endl;
-    }
-}
-
 OpenGLRenderer::OpenGLRenderer(GLFWwindow* window) : m_Window(window) {
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    // Disable face culling to see both sides
-    glDisable(GL_CULL_FACE);
+    // Enable face culling for better performance
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     std::cout << "Initializing OpenGLRenderer..." << std::endl;
     CreateShaderProgram();
@@ -46,30 +38,15 @@ void OpenGLRenderer::EndFrame() {
 }
 
 void OpenGLRenderer::DrawMesh(const Mesh& mesh) {
-    // Clear any prior GL errors
-    while (glGetError() != GL_NO_ERROR);
-
     m_Shader->Use();
-    GLenum err = glGetError();
-    if (err) std::cerr << "GL Error at Use(): " << std::hex << err << std::dec << std::endl;
-
     m_Shader->SetUniform1i("uTexture", 0);
-    err = glGetError();
-    if (err) std::cerr << "GL Error at SetUniform1i(): " << std::hex << err << std::dec << std::endl;
-
+    
     if (m_Texture) {
         m_Texture->Bind(0);
-        err = glGetError();
-        if (err) std::cerr << "GL Error at Texture::Bind(): " << std::hex << err << std::dec << std::endl;
     }
 
     mesh.Bind();
-    err = glGetError();
-    if (err) std::cerr << "GL Error at Mesh::Bind(): " << std::hex << err << std::dec << std::endl;
-
     glDrawElements(GL_TRIANGLES, mesh.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
-    err = glGetError();
-    if (err) std::cerr << "GL Error at glDrawElements(): " << std::hex << err << std::dec << std::endl;
 }
 
 void OpenGLRenderer::DrawScene() {
@@ -92,9 +69,9 @@ void OpenGLRenderer::CreateShaderProgram() {
 
 void OpenGLRenderer::CreateGeometry() {
     try {
-        m_CubeMesh = std::make_unique<Mesh>(MeshFactory::CreateQuad());
+        m_CubeMesh = std::make_unique<Mesh>(MeshFactory::CreateCube());
     } catch (const std::exception& e) {
-        throw std::runtime_error(std::string("Failed to create quad mesh: ") +
+        throw std::runtime_error(std::string("Failed to create cube mesh: ") +
                                  e.what());
     }
 }
