@@ -26,6 +26,8 @@ Shader::Shader(const char* vertexSource, const char* fragmentSource) {
     glDeleteShader(fragmentShader);
 };
 
+Shader::~Shader() { glDeleteProgram(this->ID); }
+
 void Shader::use() const { glUseProgram(this->ID); }
 
 void Shader::checkCompileErrors(unsigned int shader, std::string type) {
