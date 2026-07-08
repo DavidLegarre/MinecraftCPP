@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <shader.hpp>
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -14,5 +15,9 @@ void setUp() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
+int main() {
+    setUp();
+    Shader shaderProgram;
 
-int main() { setUp(); }
+    shaderProgram.use();
+}
