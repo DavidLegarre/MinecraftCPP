@@ -11,7 +11,7 @@ class Window {
     Window(int width, int height, const char* title);
     ~Window();
 
-    bool shouldClose() const;
+    bool shouldClose() const { return glfwWindowShouldClose(m_Window); }
     void update();  // Swaps buffers and polls events
     void clear(float r, float g, float b, float a) const;
 
@@ -21,7 +21,7 @@ class Window {
     GLFWwindow* m_Window;
     int m_Width, m_Height;
 
-    void initGLFW(const char* title);
+    void initGLFW();
     void initGLAD();
 
     // Callbacks can be mapped safely via static bridge helpers

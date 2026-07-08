@@ -4,20 +4,29 @@
 
 #include <iostream>
 #include <shader.hpp>
+#include <window.hpp>
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-void setUp() {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+void processInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
 }
+
 int main() {
-    setUp();
+    Window gameWindow(SCR_WIDTH, SCR_HEIGHT, "MinecraftCPP");
     Shader shaderProgram;
 
-    shaderProgram.use();
+    while (!gameWindow.shouldClose()) {
+        processInput(gameWindow.getNativeWindow());
+        // Render operations
+        gameWindow.clear(0.2f, 0.3f, 0.3f, 1.0f);
+
+        shaderProgram.use();
+
+        // Buffer Swapping & IO Polling
+        gameWindow.update();
+    }
 }
