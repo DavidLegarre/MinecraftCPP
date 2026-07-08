@@ -5,10 +5,28 @@
 #include <iostream>
 
 Shader::Shader(const char* vertexSource, const char* fragmentSource) {
+    // Compile Vertex Shader
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
     glCompileShader(vertexShader);
+
+    // Compile Fragment Shader
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+    glCompileShader(fragmentShader);
+
+    // Create Shader Program
+    this->ID = glCreateProgram();
+    glAttachShader(this->ID, vertexShader);
+    glAttachShader(this->ID, fragmentShader);
+    glLinkProgram(this->ID);
+    this->checkCompileErrors(this->ID, "PROGRAM");
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 };
+
+void Shader::use() const { glUseProgram(this->ID); }
 
 void Shader::checkCompileErrors(unsigned int shader, std::string type) {
     int success;
