@@ -3,9 +3,6 @@
 #include <volk/volk.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
-#include <vector>
-#include <array>
-#include <string>
 #include <iostream>
 #include <filesystem>
 #define VMA_IMPLEMENTATION
@@ -64,6 +61,11 @@ int main() {
     };
     chk_vk(vkCreateInstance(&instanceCI, nullptr, &instance));
 
-    printf("Hello, World!\n");
+    uint32_t deviceCount{0};
+    chk_vk(vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr));
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    chk_vk(vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data()));
+
+    printf("Hello, World! %u devices found\n", deviceCount);
     return 0;
 }
