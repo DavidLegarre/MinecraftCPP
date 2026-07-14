@@ -3,6 +3,12 @@ project(MinecraftCPP)
 
 set(CMAKE_CXX_STANDARD 23)
 
+if (NOT IS_DIRECTORY $ENV{VULKAN_SDK})
+    message(WARNING "Vulkan SDK not detected, if installed please set VULKAN_SDK env var or manually provide libraries")
+else()
+    message(STATUS "Found Vulkan SDK in $ENV{VULKAN_SDK}")
+endif()
+
 # 1. Define your source files (including the implementation file we created)
 set(SOURCES
     main.cpp
