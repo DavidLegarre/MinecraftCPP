@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
-project(MinecraftCPP)
+set(NAME MinecraftCPP)
+project(${NAME} VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -9,14 +10,17 @@ else()
     message(STATUS "Found Vulkan SDK in $ENV{VULKAN_SDK}")
 endif()
 
-# 1. Define your source files (including the implementation file we created)
-set(SOURCES
-    main.cpp
-    external/tinyobjloader/tiny_obj_loader.cpp # Source file containing the implementation definition
-)
+include_directories(SYSTEM $ENV{VULKAN_SDK}/include)
+include_directories(external/tinyobj)
 
-# 2. Define the executable
-add_executable(MinecraftCPP ${SOURCES})
+find_package (Vulkan REQUIRED)
 
-# 3. Include the directory containing tiny_obj_loader.h
-target_include_directories(MinecraftCPP PRIVATE external/tinyobjloader)
+find_library(SDL_LIBRARY NAMES SDL3 HINTS "$ENV{VULKAN_SDK}/lib" REQUIRED)
+find_library(Slang_LIBRARY NAMES slang slang-compiler HINTS "$ENV{VULKAN_SDK}/lib" REQUIRED)
+
+add_executable(${NAME} main.cpp )
+target_compile_definitions(${NAME} PRIVATE VK_NO_PROTOTYPES)
+
+set_target_properties(${NAME} PROPERTIES DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(${NAME} PRIVATE cxx_std_20)
+target_link_libraries(${NAME} PRIVATE ${SDL_LIBRARY} ktx ${Slang_LIBRARY})

@@ -22,7 +22,23 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
+static inline void chk(bool result) {
+    if (!result) {
+        std::cerr << "Vulkan call returned an error (" << result << ")\n";
+        exit(result);
+    }
+}
+
 int main() {
+    // Make sure asset folder is present from the current working directory
+    if (!std::filesystem::is_directory("assets")) {
+        std::cerr << "Could not locate assets folder from current working "
+                     "directory\n";
+        exit(-1);
+    }
+    chk(SDL_Init(SDL_INIT_VIDEO));
+    chk(SDL_Vulkan_LoadLibrary(NULL));
+    volkInitialize();
     VkApplicationInfo appInfo{.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
                               .pApplicationName = "How to Vulkan",
                               .apiVersion = VK_API_VERSION_1_3};
