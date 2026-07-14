@@ -22,8 +22,18 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
+// Global Variables
+VkInstance instance{VK_NULL_HANDLE};
+
 static inline void chk(bool result) {
     if (!result) {
+        std::cerr << "Vulkan call returned an error (" << result << ")\n";
+        exit(result);
+    }
+}
+
+static inline void chk_vk(VkResult result) {
+    if (result != VK_SUCCESS) {
         std::cerr << "Vulkan call returned an error (" << result << ")\n";
         exit(result);
     }
@@ -45,6 +55,15 @@ int main() {
     uint32_t instanceExtensionsCount{0};
     char const* const* instanceExtensions{
         SDL_Vulkan_GetInstanceExtensions(&instanceExtensionsCount)};
+
+    VkInstanceCreateInfo instanceCI{
+        .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+        .pApplicationInfo = &appInfo,
+        .enabledExtensionCount = instanceExtensionsCount,
+        .ppEnabledExtensionNames = instanceExtensions,
+    };
+    chk_vk(vkCreateInstance(&instanceCI, nullptr, &instance));
+
     printf("Hello, World!\n");
     return 0;
 }
