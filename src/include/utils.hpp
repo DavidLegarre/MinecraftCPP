@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vulkan/vulkan.h>
 
-inline void chk(bool result) {
+inline void chk_bool(bool result) {
     if (!result) {
         std::cerr << "Vulkan call returned an error (" << result << ")\n";
         std::exit(result);

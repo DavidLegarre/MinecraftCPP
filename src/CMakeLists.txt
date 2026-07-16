@@ -1,28 +1,27 @@
-add_library(setUp setUp.cpp)
-target_include_directories(setUp PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GLFW REQUIRED glfw3)
+pkg_check_modules(SDL3 REQUIRED sdl3)
 
-set(SOURCES
+add_executable(${PROJECT_NAME}
     main.cpp
-    setUp.cpp
-    device.cpp
+    app.cpp
+    window.cpp
 )
 
-add_executable(${NAME} ${SOURCES})
-
-target_include_directories(${NAME} PRIVATE
+target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${GLFW_INCLUDE_DIRS}
+    ${SDL3_INCLUDE_DIRS}
 )
 
-target_compile_definitions(${NAME} PRIVATE VK_NO_PROTOTYPES)
-set_target_properties(${NAME}
-    PROPERTIES DEBUGGER_WORKING_DIRECTORY 
-    ${CMAKE_CURRENT_SOURCE_DIR}
+target_compile_definitions(${PROJECT_NAME} PRIVATE VK_NO_PROTOTYPES)
+
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# 5. Link libraries
-target_link_libraries(${NAME} PRIVATE 
-    ${SDL_LIBRARY}
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${GLFW_LIBRARIES}
+    ${SDL3_LIBRARIES}
     Vulkan::Vulkan
 )
