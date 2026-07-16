@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-Device::Device(VkInstance instance) {
+Device::Device(VkInstance instance) : m_instance(instance) {
     vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
     if (deviceCount == 0) {
         std::cerr << "Failed to find any GPUs with Vulkan support.\n";
@@ -34,21 +34,21 @@ void Device::buildQueueFamilies() {
     std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
     vkGetPhysicalDeviceQueueFamilyProperties(
         m_physicalDevice, &queueFamilyCount, queueFamilies.data());
-    uint32_t queueFamily{0};
+    uint32_t queueFamilyIndex{VK_QUEUE_FAMILY_IGNORED};
     for (size_t i = 0; i < queueFamilies.size(); i++) {
-        if (queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-            queueFamily = i;
+        if ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) &&
+            SDL_Vulkan_GetPresentationSupport(m_instance, m_physicalDevice, i)) {
+            queueFamilyIndex = i;
             break;
         }
     }
 
-    chk(SDL_Vulkan_GetPresentationSupport(m_instance, m_physicalDevice,
-                                          queueFamily));
+    chk(queueFamilyIndex != VK_QUEUE_FAMILY_IGNORED);
 
-    const float qfpriorities{1.0f};
-    VkDeviceQueueCreateInfo queueCI{
+    static constexpr float qfpriorities{1.0f};
+    m_queueCI = VkDeviceQueueCreateInfo{
         .sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
-        .queueFamilyIndex = queueFamily,
+        .queueFamilyIndex = queueFamilyIndex,
         .queueCount = 1,
         .pQueuePriorities = &qfpriorities};
 }

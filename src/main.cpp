@@ -69,7 +69,7 @@ int main() {
         .ppEnabledExtensionNames = deviceExtensions.data(),
         .pEnabledFeatures = &enabledVk10Features};
     VkDevice logicalDevice{VK_NULL_HANDLE};
-    chk(vkCreateDevice(device.getPhysicalDevice(), &deviceCI, nullptr,
+    chk_vk(vkCreateDevice(device.getPhysicalDevice(), &deviceCI, nullptr,
                        &logicalDevice));
 
     return 0;

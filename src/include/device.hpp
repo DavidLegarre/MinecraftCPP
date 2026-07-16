@@ -14,6 +14,7 @@ class Device {
     // Accessors
     uint32_t getDeviceCount() const { return deviceCount; }
     VkPhysicalDevice getPhysicalDevice() const { return m_physicalDevice; }
+    VkDeviceQueueCreateInfo getQueueCreateInfo() const { return m_queueCI; }
 
     void buildQueueFamilies();
 
@@ -21,4 +22,5 @@ class Device {
     uint32_t deviceCount{0};
     VkPhysicalDevice m_physicalDevice{VK_NULL_HANDLE};
     VkInstance m_instance{VK_NULL_HANDLE};
+    VkDeviceQueueCreateInfo m_queueCI{};
 };
