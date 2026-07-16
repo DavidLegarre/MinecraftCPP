@@ -1,18 +1,13 @@
-BasedOnStyle: Google
+BasedOnStyle: LLVM
 
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
+Language: Cpp
+
 
 ColumnLimit: 80
 
 # --- Keep GLAD headers above GLFW ---
 SortIncludes: false
 IncludeBlocks: Preserve
-IncludeCategories:
-  - Regex: '^<glad/.*'
-    Priority: -1
-  - Regex: '^<GLFW/.*'
-    Priority: 1
-  - Regex: '.*'
-    Priority: 2
