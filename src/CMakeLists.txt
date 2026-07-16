@@ -5,6 +5,7 @@ pkg_check_modules(SDL3 REQUIRED sdl3)
 add_executable(${PROJECT_NAME}
     main.cpp
     app.cpp
+    pipeline.cpp
     window.cpp
 )
 
