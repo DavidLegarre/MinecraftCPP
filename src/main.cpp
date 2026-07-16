@@ -41,5 +41,36 @@ int main() {
     std::cout << "Hello, World! " << device.getDeviceCount()
               << " devices found\n";
 
+    const std::vector<const char*> deviceExtensions{
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+
+    VkPhysicalDeviceVulkan12Features enabledVk12Features{
+        .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
+        .descriptorIndexing = true,
+        .shaderSampledImageArrayNonUniformIndexing = true,
+        .descriptorBindingVariableDescriptorCount = true,
+        .runtimeDescriptorArray = true,
+        .bufferDeviceAddress = true};
+    VkPhysicalDeviceVulkan13Features enabledVk13Features{
+        .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES,
+        .pNext = &enabledVk12Features,
+        .synchronization2 = true,
+        .dynamicRendering = true,
+    };
+    VkPhysicalDeviceFeatures enabledVk10Features{.samplerAnisotropy = VK_TRUE};
+
+    const auto& queueCreateInfo = device.getQueueCreateInfo();
+    VkDeviceCreateInfo deviceCI{
+        .sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+        .pNext = &enabledVk13Features,
+        .queueCreateInfoCount = 1,
+        .pQueueCreateInfos = &queueCreateInfo,
+        .enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size()),
+        .ppEnabledExtensionNames = deviceExtensions.data(),
+        .pEnabledFeatures = &enabledVk10Features};
+    VkDevice logicalDevice{VK_NULL_HANDLE};
+    chk(vkCreateDevice(device.getPhysicalDevice(), &deviceCI, nullptr,
+                       &logicalDevice));
+
     return 0;
 }
