@@ -1,6 +1,7 @@
 #pragma once
 
 #include "window.hpp"
+#include "pipeline.hpp"
 
 namespace app {
 class App {
@@ -12,5 +13,7 @@ class App {
 
   private:
     window::VkWindow window{WIDTH, HEIGHT, "Hello Vulkan!"};
+    pipeline::Pipeline pipeline{"assets/simple_shader.vert.spv",
+                                "assets/simple_shader.frag.spv"};
 };
 } // namespace app
