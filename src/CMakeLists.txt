@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME}
     app.cpp
     pipeline.cpp
     window.cpp
+    engine_device.cpp
 )
 
 # ── Include Directories ───────────────────────────────────
@@ -17,7 +18,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 # ── Compile Defines ───────────────────────────────────────
-target_compile_definitions(${PROJECT_NAME} PRIVATE VK_NO_PROTOTYPES)
 
 # ── Properties ────────────────────────────────────────────
 set_target_properties(${PROJECT_NAME}
