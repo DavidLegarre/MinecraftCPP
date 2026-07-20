@@ -1,22 +1,32 @@
 cmake_minimum_required(VERSION 3.20)
-project(MinecraftCPP VERSION 0.1.0 LANGUAGES CXX)
+project(MinecraftCPP
+    VERSION 0.1.0
+    DESCRIPTION "Minecraft clone in C++ with Vulkan"
+    LANGUAGES CXX
+)
 
+# ── C++ Standard ──────────────────────────────────────────
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
+# ── Build Configuration ───────────────────────────────────
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+# ── Compiler Cache ────────────────────────────────────────
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
 endif()
 
-# Vulkan SDK path
+# ── Vulkan SDK ────────────────────────────────────────────
 if(DEFINED ENV{VULKAN_SDK} AND NOT "$ENV{VULKAN_SDK}" STREQUAL "")
     set(VULKAN_SDK_PATH "$ENV{VULKAN_SDK}")
 else()
@@ -25,4 +35,5 @@ endif()
 
 find_package(Vulkan REQUIRED)
 
+# ── Subdirectories ────────────────────────────────────────
 add_subdirectory(src)
