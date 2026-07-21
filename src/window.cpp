@@ -4,8 +4,7 @@
 #include <iostream>
 
 namespace window {
-VkWindow::VkWindow(int w, int h, const std::string name)
-    : width(w), height(h), windowName(name) {
+VkWindow::VkWindow(int w, int h, const std::string name) : width(w), height(h), windowName(name) {
     initWindow();
 };
 
@@ -23,8 +22,7 @@ void VkWindow::initWindow() {
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
 
-    window =
-        glfwCreateWindow(width, height, windowName.c_str(), nullptr, nullptr);
+    window = glfwCreateWindow(width, height, windowName.c_str(), nullptr, nullptr);
     if (!window) {
         std::cerr << "glfwCreateWindow failed\n";
         glfwTerminate();
@@ -34,10 +32,8 @@ void VkWindow::initWindow() {
     glfwShowWindow(window);
 };
 void VkWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
-    if (glfwCreateWindowSurface(instance, window, nullptr, surface) !=
-        VK_SUCCESS) {
+    if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
         throw std::runtime_error("failed to create window surface!");
     }
 }
 } // namespace window
-

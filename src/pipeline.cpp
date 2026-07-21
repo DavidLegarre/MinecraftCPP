@@ -30,15 +30,12 @@ std::vector<char> Pipeline::readFile(const std::string &filename) {
     return buffer;
 }
 
-void Pipeline::createGraphicsPipeline(const std::string &vertFile,
-                                      const std::string &fragFile) {
+void Pipeline::createGraphicsPipeline(const std::string &vertFile, const std::string &fragFile) {
     const auto vertShaderCode = readFile(vertFile);
     const auto fragShaderCode = readFile(fragFile);
 
-    std::cout << "Vertex shader code size: " << vertShaderCode.size()
-              << " bytes\n";
-    std::cout << "Fragment shader code size: " << fragShaderCode.size()
-              << " bytes\n";
+    std::cout << "Vertex shader code size: " << vertShaderCode.size() << " bytes\n";
+    std::cout << "Fragment shader code size: " << fragShaderCode.size() << " bytes\n";
 }
 
 } // namespace pipeline
