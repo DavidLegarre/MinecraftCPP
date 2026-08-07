@@ -7,6 +7,6 @@ build:
 	@echo "Building the project..."
 	cmake -S . -B build -G "Ninja"
 
-run:
+run: build
 	@echo "Running the project..."
 	cmake --build build
