@@ -18,5 +18,4 @@ FetchContent_MakeAvailable(glm)
 find_package(Vulkan REQUIRED)
 
 # 2. Add Subdirectories (CMake executes their CMakeLists.txt in order)
-add_subdirectory(engine)
 add_subdirectory(src)
