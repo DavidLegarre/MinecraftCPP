@@ -5,17 +5,18 @@
 #include <string>
 #include <vector>
 
-namespace pipeline {
+namespace lve {
 
 struct PipelineConfigInfo {};
 class Pipeline {
-  public:
-    Pipeline(const engine::MyEngineDevice &device, const std::string &vertFile,
-             const std::string &fragFile);
+   public:
+    Pipeline(const engine::MyEngineDevice& device, const std::string& vertFile,
+             const std::string& fragFile);
 
-  private:
-    static std::vector<char> readFile(const std::string &filename);
+   private:
+    static std::vector<char> readFile(const std::string& filename);
 
-    void createGraphicsPipeline(const std::string &vertFile, const std::string &fragFile);
+    void createGraphicsPipeline(const std::string& vertFile,
+                                const std::string& fragFile);
 };
-} // namespace pipeline
+}  // namespace lve

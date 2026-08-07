@@ -3,7 +3,7 @@
 #include "window.hpp"
 #include "pipeline.hpp"
 
-namespace app {
+namespace lve {
 class App {
   public:
     static constexpr int WIDTH = 800;

@@ -6,24 +6,24 @@
 
 namespace window {
 class VkWindow {
-  public:
+   public:
     VkWindow(int w, int h, std::string name);
     ~VkWindow();
 
-    VkWindow(const VkWindow &) = delete;
-    VkWindow &operator=(const VkWindow &) = delete;
+    VkWindow(const VkWindow&) = delete;
+    VkWindow& operator=(const VkWindow&) = delete;
 
     bool shouldClose() { return glfwWindowShouldClose(window); }
 
-    void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
+    void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 
-  private:
+   private:
     void initWindow();
 
     const int width;
     const int height;
 
     std::string windowName;
-    GLFWwindow *window;
+    GLFWwindow* window;
 };
-} // namespace window
+}  // namespace window

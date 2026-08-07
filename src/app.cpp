@@ -1,9 +1,9 @@
 #include "app.hpp"
 
-namespace app {
+namespace lve {
 void App::run() {
     while (!window.shouldClose()) {
         glfwPollEvents();
     }
 };
-} // namespace app
+}  // namespace lve

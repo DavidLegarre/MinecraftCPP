@@ -1,11 +1,11 @@
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 Language: Cpp
 
-ColumnLimit: 100
+ColumnLimit: 88
 
 # --- Keep GLAD headers above GLFW ---
 SortIncludes: false

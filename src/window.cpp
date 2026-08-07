@@ -3,8 +3,9 @@
 #include <cstdlib>
 #include <iostream>
 
-namespace window {
-VkWindow::VkWindow(int w, int h, const std::string name) : width(w), height(h), windowName(name) {
+namespace lve {
+VkWindow::VkWindow(int w, int h, const std::string name)
+    : width(w), height(h), windowName(name) {
     initWindow();
 };
 
@@ -31,9 +32,9 @@ void VkWindow::initWindow() {
 
     glfwShowWindow(window);
 };
-void VkWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
+void VkWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
     if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
         throw std::runtime_error("failed to create window surface!");
     }
 }
-} // namespace window
+}  // namespace lve
