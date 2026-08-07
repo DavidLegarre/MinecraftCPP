@@ -13,7 +13,7 @@ include(FetchContent)
 FetchContent_Declare(
     glfw
     GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG        3.4
+    GIT_TAG 3.4
 )
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(glfw)
 FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
-    GIT_TAG        1.0.1
+    GIT_TAG 1.0.1
 )
 FetchContent_MakeAvailable(glm)
 
@@ -32,14 +32,22 @@ FetchContent_MakeAvailable(glm)
 find_package(Vulkan REQUIRED)
 
 # Define executable target
-add_executable(${PROJECT_NAME} src/main.cpp)
+file(GLOB_RECURSE CPP_SOURCE_FILES "src/*.h" "src/*.cpp")
+add_executable(${PROJECT_NAME}
+    ${CPP_SOURCE_FILES}
+)
+target_sources(${PROJECT_NAME} PRIVATE
+    src/lve_window.cpp
+    src/first_app.cpp
+)
+target_include_directories(${PROJECT_NAME} PRIVATE src)
 
 # Target-based property linking
-target_link_libraries(${PROJECT_NAME} 
-    PRIVATE 
-        Vulkan::Vulkan
-        glfw
-        glm::glm
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+    Vulkan::Vulkan
+    glfw
+    glm::glm
 )
 
 # Target-based compile features

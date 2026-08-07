@@ -1,6 +1,6 @@
 #pragma once
 
-#include lve_window.hpp
+#include "lve_window.hpp"
 
 namespace lve {
 class FirstApp {
@@ -11,7 +11,7 @@ class FirstApp {
     FirstApp();
     ~FirstApp();
 
-    void run(){};
+    void run();
 
    private:
     LveWindow lveWindow{WIDTH, HEIGHT, "VulkanEngine"};

@@ -1,4 +1,4 @@
-#include lve_window.hpp
+#include "lve_window.hpp"
 
 namespace lve {
 LveWindow::LveWindow(int w, int h, std::string name)
@@ -16,4 +16,5 @@ void LveWindow::initWindow() {
 
     window =
         glfwCreateWindow(width, height, windowName.c_str(), nullptr, nullptr);
+}
 }  // namespace lve

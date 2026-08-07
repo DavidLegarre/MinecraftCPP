@@ -11,7 +11,8 @@ class LveWindow {
     ~LveWindow();
 
     bool shouldClose() { return glfwWindowShouldClose(window); }
-    
+    GLFWwindow* getWindow() const { return window; }
+
     LveWindow(const LveWindow&) = delete;
     LveWindow& operator=(const LveWindow&) = delete;
 
