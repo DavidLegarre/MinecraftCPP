@@ -1,26 +1,46 @@
-cmake_minimum_required(VERSION 3.20)
-set(NAME MinecraftCPP)
-project(${NAME} VERSION 0.1 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.22)
+project(VulkanApp LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+# Require C++20 standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-if (NOT IS_DIRECTORY $ENV{VULKAN_SDK})
-    message(WARNING "Vulkan SDK not detected, if installed please set VULKAN_SDK env var or manually provide libraries")
-else()
-    message(STATUS "Found Vulkan SDK in $ENV{VULKAN_SDK}")
-endif()
+# Include FetchContent module for dynamic dependency management
+include(FetchContent)
 
-include_directories(SYSTEM $ENV{VULKAN_SDK}/include)
-include_directories(external/tinyobj)
+# Fetch GLFW dynamically
+FetchContent_Declare(
+    glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG        3.4
+)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(glfw)
 
-find_package (Vulkan REQUIRED)
+# Fetch GLM dynamically
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG        1.0.1
+)
+FetchContent_MakeAvailable(glm)
 
-find_library(SDL_LIBRARY NAMES SDL3 HINTS "$ENV{VULKAN_SDK}/lib" REQUIRED)
-find_library(Slang_LIBRARY NAMES slang slang-compiler HINTS "$ENV{VULKAN_SDK}/lib" REQUIRED)
+# Locate Vulkan SDK installed on system (CachyOS / Arch)
+find_package(Vulkan REQUIRED)
 
-add_executable(${NAME} main.cpp )
-target_compile_definitions(${NAME} PRIVATE VK_NO_PROTOTYPES)
+# Define executable target
+add_executable(${PROJECT_NAME} src/main.cpp)
 
-set_target_properties(${NAME} PROPERTIES DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-target_compile_features(${NAME} PRIVATE cxx_std_20)
-target_link_libraries(${NAME} PRIVATE ${SDL_LIBRARY} ktx ${Slang_LIBRARY})
+# Target-based property linking
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE 
+        Vulkan::Vulkan
+        glfw
+        glm::glm
+)
+
+# Target-based compile features
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
