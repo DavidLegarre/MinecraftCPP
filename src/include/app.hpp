@@ -14,9 +14,11 @@ class App {
 
    private:
 	LveWindow window{WIDTH, HEIGHT, "Hello Vulkan!"};
-	lve::LveDevice device{window};
-	LvePipeline pipeline{device,
-	                     "assets/simple_shader.vert.spv",
-	                     "assets/simple_shader.frag.spv"};
+	LveDevice device{window};
+	LvePipeline pipeline{
+	    device,
+	    "assets/simple_shader.vert.spv",
+	    "assets/simple_shader.frag.spv",
+	    LvePipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)};
 };
 }  // namespace lve

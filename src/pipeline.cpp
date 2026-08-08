@@ -8,11 +8,15 @@
 
 namespace lve {
 
-LvePipeline::LvePipeline(const lve::LveDevice& device,
+LvePipeline::LvePipeline(LveDevice& device,
                          const std::string& vertFile,
-                         const std::string& fragFile) {
-	createGraphicsPipeline(vertFile, fragFile);
+                         const std::string& fragFile,
+                         const PipelineConfigInfo& configInfo)
+    : lveDevice(device) {
+	createGraphicsPipeline(vertFile, fragFile, configInfo);
 }
+
+LvePipeline::~LvePipeline() {}
 
 std::vector<char> LvePipeline::readFile(const std::string& filename) {
 	std::ifstream file(filename, std::ios::ate | std::ios::binary);
@@ -33,7 +37,8 @@ std::vector<char> LvePipeline::readFile(const std::string& filename) {
 }
 
 void LvePipeline::createGraphicsPipeline(const std::string& vertFile,
-                                         const std::string& fragFile) {
+                                         const std::string& fragFile,
+                                         const PipelineConfigInfo& configInfo) {
 	const auto vertShaderCode = readFile(vertFile);
 	const auto fragShaderCode = readFile(fragFile);
 
@@ -54,9 +59,9 @@ void LvePipeline::createShaderModule(const std::vector<char>& code,
 	}
 }
 
-PipelinConfigInfo LvePipeline::defaultPipelineConfigInfo(uint32_t width,
-                                                         uint32_t height) {
+PipelineConfigInfo LvePipeline::defaultPipelineConfigInfo(uint32_t width,
+                                                          uint32_t height) {
 	PipelineConfigInfo configInfo{};
 	return configInfo;
-
+}
 }  // namespace lve
