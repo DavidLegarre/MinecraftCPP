@@ -30,7 +30,7 @@ class MyEngineDevice {
     const bool enableValidationLayers = true;
 #endif
 
-    MyEngineDevice(window::VkWindow& window);
+    MyEngineDevice(LveWindow& window);
     ~MyEngineDevice();
 
     // Not copyable or movable
@@ -93,7 +93,7 @@ class MyEngineDevice {
     VkInstance instance;
     VkDebugUtilsMessengerEXT debugMessenger;
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-    window::VkWindow& window;
+    lve::LveWindow& window;
     VkCommandPool commandPool;
 
     VkDevice device_;

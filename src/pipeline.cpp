@@ -6,13 +6,14 @@
 #include <string>
 #include <vector>
 
-namespace pipeline {
+namespace lve {
 
-Pipeline::Pipeline(const std::string &vertFile, const std::string &fragFile) {
+LvePipeline::LvePipeline(const lve::MyEngineDevice& device, const std::string& vertFile,
+                         const std::string& fragFile) {
     createGraphicsPipeline(vertFile, fragFile);
 }
 
-std::vector<char> Pipeline::readFile(const std::string &filename) {
+std::vector<char> LvePipeline::readFile(const std::string& filename) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
     if (!file.is_open()) {
@@ -30,7 +31,8 @@ std::vector<char> Pipeline::readFile(const std::string &filename) {
     return buffer;
 }
 
-void Pipeline::createGraphicsPipeline(const std::string &vertFile, const std::string &fragFile) {
+void LvePipeline::createGraphicsPipeline(const std::string& vertFile,
+                                         const std::string& fragFile) {
     const auto vertShaderCode = readFile(vertFile);
     const auto fragShaderCode = readFile(fragFile);
 
@@ -38,4 +40,4 @@ void Pipeline::createGraphicsPipeline(const std::string &vertFile, const std::st
     std::cout << "Fragment shader code size: " << fragShaderCode.size() << " bytes\n";
 }
 
-} // namespace pipeline
+}  // namespace lve

@@ -4,14 +4,14 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
-namespace window {
-class VkWindow {
+namespace lve {
+class LveWindow {
    public:
-    VkWindow(int w, int h, std::string name);
-    ~VkWindow();
+    LveWindow(int w, int h, std::string name);
+    ~LveWindow();
 
-    VkWindow(const VkWindow&) = delete;
-    VkWindow& operator=(const VkWindow&) = delete;
+    LveWindow(const LveWindow&) = delete;
+    LveWindow& operator=(const LveWindow&) = delete;
 
     bool shouldClose() { return glfwWindowShouldClose(window); }
 
@@ -26,4 +26,4 @@ class VkWindow {
     std::string windowName;
     GLFWwindow* window;
 };
-}  // namespace window
+}  // namespace lve

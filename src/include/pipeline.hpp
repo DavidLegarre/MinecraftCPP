@@ -8,10 +8,10 @@
 namespace lve {
 
 struct PipelineConfigInfo {};
-class Pipeline {
+class LvePipeline {
    public:
-    Pipeline(const engine::MyEngineDevice& device, const std::string& vertFile,
-             const std::string& fragFile);
+    LvePipeline(const lve::MyEngineDevice& device, const std::string& vertFile,
+                const std::string& fragFile);
 
    private:
     static std::vector<char> readFile(const std::string& filename);
