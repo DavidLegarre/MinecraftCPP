@@ -54,4 +54,9 @@ void LvePipeline::createShaderModule(const std::vector<char>& code,
 	}
 }
 
+PipelinConfigInfo LvePipeline::defaultPipelineConfigInfo(uint32_t width,
+                                                         uint32_t height) {
+	PipelineConfigInfo configInfo{};
+	return configInfo;
+
 }  // namespace lve
