@@ -8,7 +8,7 @@
 
 namespace lve {
 
-LvePipeline::LvePipeline(const lve::MyEngineDevice& device, const std::string& vertFile,
+LvePipeline::LvePipeline(const lve::LveDevice& device, const std::string& vertFile,
                          const std::string& fragFile) {
     createGraphicsPipeline(vertFile, fragFile);
 }

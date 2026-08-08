@@ -1,13 +1,13 @@
-# MyEngineDevice — Vulkan Device Wrapper
+# LveDevice — Vulkan Device Wrapper
 
-`engine::MyEngineDevice` wraps core Vulkan device initialization, resource management, and buffer/image utilities.
+`lve::LveDevice` wraps core Vulkan device initialization, resource management, and buffer/image utilities.
 
 ## Public API
 
 | Method | Description |
 |--------|-------------|
-| `MyEngineDevice(window::VkWindow &window)` | Constructs device from window |
-| `~MyEngineDevice()` | Tears down device, surface, instance |
+| `LveDevice(lve::LveWindow &window)` | Constructs device from window |
+| `~LveDevice()` | Tears down device, surface, instance |
 | `getCommandPool()` | Returns `VkCommandPool` |
 | `device()` | Returns `VkDevice` |
 | `surface()` | Returns `VkSurfaceKHR` |

@@ -8,7 +8,7 @@ add_executable(${PROJECT_NAME}
     app.cpp
     pipeline.cpp
     window.cpp
-    engine_device.cpp
+    lve_device.cpp
 )
 
 # ── Include Directories ───────────────────────────────────

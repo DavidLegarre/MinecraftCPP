@@ -2,7 +2,7 @@
 
 #include "window.hpp"
 #include "pipeline.hpp"
-#include "engine_device.hpp"
+#include "lve_device.hpp"
 
 namespace lve {
 class App {
@@ -14,7 +14,7 @@ class App {
 
    private:
     LveWindow window{WIDTH, HEIGHT, "Hello Vulkan!"};
-    MyEngineDevice device{window};
+    lve::LveDevice device{window};
    LvePipeline pipeline{device, "assets/simple_shader.vert.spv",
                               "assets/simple_shader.frag.spv"};
 };
