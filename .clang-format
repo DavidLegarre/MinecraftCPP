@@ -2,11 +2,49 @@ BasedOnStyle: Google
 
 IndentWidth: 4
 TabWidth: 4
-UseTab: Never
-Language: Cpp
+UseTab: ForIndentation
+AccessModifierOffset: -1
 
 ColumnLimit: 88
 
 # --- Keep GLAD headers above GLFW ---
 SortIncludes: false
 IncludeBlocks: Preserve
+
+# --- Modern C++20 style (per current Google C++ Style Guide) ---
+Language: Cpp
+Standard: c++20
+
+# Braces always required for multi-line bodies (guide: "don't use else after return" + braces)
+InsertBraces: true
+RemoveBracesLLVM: false
+
+# Separate method definitions from preceding declarations with a blank line
+SeparateDefinitionBlocks: Always
+
+# Pointer/reference qualifiers bind to the type (guide: "type& name")
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+DerivePointerAlignment: false
+
+# Function bodies on one line: only empty/inline; lambdas short only if inline
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortLambdasOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Constructor init lists pack onto current line when they fit
+PackConstructorInitializers: CurrentLine
+
+# No space before template parameter in declarations, e.g. template<typename T>
+SpaceAfterTemplateKeyword: true
+
+# Namespace contents never indented (guide: no indentation in namespaces)
+NamespaceIndentation: None
+CompactNamespaces: false
+
+# Case labels aligned with switch, no extra indent
+IndentCaseLabels: true
+
+# Attributes and auto-complete
+AlwaysBreakAfterReturnType: None

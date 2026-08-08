@@ -15,3 +15,7 @@ rebuild:
 	@echo "Rebuilding the project..."
 	$(MAKE) clean
 	$(MAKE) run
+
+format:
+	@echo "Formatting C++ sources..."
+	clang-format -i $$(find src -name "*.cpp" -o -name "*.hpp")
