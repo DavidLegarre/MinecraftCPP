@@ -35,7 +35,11 @@ AllowShortLoopsOnASingleLine: false
 
 # Constructor init lists pack onto current line when they fit
 PackConstructorInitializers: CurrentLine
-
+# --- Parameters: stack vertically (one per line) when they break ---
+BinPackArguments: false
+BinPackParameters: false
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
 # No space before template parameter in declarations, e.g. template<typename T>
 SpaceAfterTemplateKeyword: true
 

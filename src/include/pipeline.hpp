@@ -11,21 +11,32 @@ struct PipelineConfigInfo {};
 
 class LvePipeline {
    public:
-	LvePipeline(const lve::LveDevice& device, const std::string& vertFile,
-	            const std::string& fragFile, const PipelineConfigInfo& configInfo = {});
+	LvePipeline(LveDevice& device,
+	            const std::string& vertFile,
+	            const std::string& fragFile,
+	            const PipelineConfigInfo& configInfo)
+	    : lveDevice{device} {
+		;
+		~LvePipeline();
 
-   private:
-	static std::vector<char> readFile(const std::string& filename);
+		LvePipeline(const LvePipeline&) = delete;
+		void operator=(const LvePipeline&) = delete;
 
-	void createGraphicsPipeline(const std::string& vertFile,
-	                            const std::string& fragFile,
-	                            const PipelineConfigInfo& configInfo);
+		static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width,
+		                                                    uint32_t height);
 
-	void createShaderModule(const std::vector<char>& code,
-	                        VkShaderModule* shaderModule);
-	LveDevice& lveDevice;
-	VkPipeline graphicsPipeline;
-	VkShaderModule vertShaderModule;
-	VkShaderModule fragShaderModule;
-};
+	   private:
+		static std::vector<char> readFile(const std::string& filename);
+
+		void createGraphicsPipeline(const std::string& vertFile,
+		                            const std::string& fragFile,
+		                            const PipelineConfigInfo& configInfo);
+
+		void createShaderModule(const std::vector<char>& code,
+		                        VkShaderModule* shaderModule);
+		LveDevice & lveDevice;
+		VkPipeline graphicsPipeline;
+		VkShaderModule vertShaderModule;
+		VkShaderModule fragShaderModule;
+	};
 }  // namespace lve

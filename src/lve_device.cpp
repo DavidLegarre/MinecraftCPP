@@ -9,21 +9,24 @@
 namespace lve {
 
 // local callback functions
-static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
-    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-    VkDebugUtilsMessageTypeFlagsEXT messageType,
-    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
+static VKAPI_ATTR VkBool32 VKAPI_CALL
+debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+              VkDebugUtilsMessageTypeFlagsEXT messageType,
+              const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+              void* pUserData) {
 	std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
 	return VK_FALSE;
 }
 
 VkResult CreateDebugUtilsMessengerEXT(
-    VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+    VkInstance instance,
+    const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
     const VkAllocationCallbacks* pAllocator,
     VkDebugUtilsMessengerEXT* pDebugMessenger) {
 	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
-	    instance, "vkCreateDebugUtilsMessengerEXT");
+	    instance,
+	    "vkCreateDebugUtilsMessengerEXT");
 	if (func != nullptr) {
 		return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
 	} else {
@@ -35,7 +38,8 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance,
                                    VkDebugUtilsMessengerEXT debugMessenger,
                                    const VkAllocationCallbacks* pAllocator) {
 	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
-	    instance, "vkDestroyDebugUtilsMessengerEXT");
+	    instance,
+	    "vkDestroyDebugUtilsMessengerEXT");
 	if (func != nullptr) {
 		func(instance, debugMessenger, pAllocator);
 	}
@@ -305,7 +309,9 @@ bool LveDevice::checkDeviceExtensionSupport(VkPhysicalDevice device) {
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
 	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount,
+	vkEnumerateDeviceExtensionProperties(device,
+	                                     nullptr,
+	                                     &extensionCount,
 	                                     availableExtensions.data());
 
 	std::set<std::string> requiredExtensions(deviceExtensions.begin(),
@@ -325,7 +331,8 @@ QueueFamilyIndices LveDevice::findQueueFamilies(VkPhysicalDevice device) {
 	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 
 	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount,
+	vkGetPhysicalDeviceQueueFamilyProperties(device,
+	                                         &queueFamilyCount,
 	                                         queueFamilies.data());
 
 	int i = 0;
@@ -360,17 +367,23 @@ SwapChainSupportDetails LveDevice::querySwapChainSupport(VkPhysicalDevice device
 
 	if (formatCount != 0) {
 		details.formats.resize(formatCount);
-		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface_, &formatCount,
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device,
+		                                     surface_,
+		                                     &formatCount,
 		                                     details.formats.data());
 	}
 
 	uint32_t presentModeCount;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface_, &presentModeCount,
+	vkGetPhysicalDeviceSurfacePresentModesKHR(device,
+	                                          surface_,
+	                                          &presentModeCount,
 	                                          nullptr);
 
 	if (presentModeCount != 0) {
 		details.presentModes.resize(presentModeCount);
-		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface_, &presentModeCount,
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device,
+		                                          surface_,
+		                                          &presentModeCount,
 		                                          details.presentModes.data());
 	}
 	return details;
@@ -408,8 +421,10 @@ uint32_t LveDevice::findMemoryType(uint32_t typeFilter,
 	throw std::runtime_error("failed to find suitable memory type!");
 }
 
-void LveDevice::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
-                             VkMemoryPropertyFlags properties, VkBuffer& buffer,
+void LveDevice::createBuffer(VkDeviceSize size,
+                             VkBufferUsageFlags usage,
+                             VkMemoryPropertyFlags properties,
+                             VkBuffer& buffer,
                              VkDeviceMemory& bufferMemory) {
 	VkBufferCreateInfo bufferInfo{};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -481,8 +496,11 @@ void LveDevice::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize 
 	endSingleTimeCommands(commandBuffer);
 }
 
-void LveDevice::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width,
-                                  uint32_t height, uint32_t layerCount) {
+void LveDevice::copyBufferToImage(VkBuffer buffer,
+                                  VkImage image,
+                                  uint32_t width,
+                                  uint32_t height,
+                                  uint32_t layerCount) {
 	VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
 	VkBufferImageCopy region{};
@@ -498,13 +516,18 @@ void LveDevice::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width
 	region.imageOffset = {0, 0, 0};
 	region.imageExtent = {width, height, 1};
 
-	vkCmdCopyBufferToImage(commandBuffer, buffer, image,
-	                       VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+	vkCmdCopyBufferToImage(commandBuffer,
+	                       buffer,
+	                       image,
+	                       VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+	                       1,
+	                       &region);
 	endSingleTimeCommands(commandBuffer);
 }
 
 void LveDevice::createImageWithInfo(const VkImageCreateInfo& imageInfo,
-                                    VkMemoryPropertyFlags properties, VkImage& image,
+                                    VkMemoryPropertyFlags properties,
+                                    VkImage& image,
                                     VkDeviceMemory& imageMemory) {
 	if (vkCreateImage(device_, &imageInfo, nullptr, &image) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create image!");
