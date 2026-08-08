@@ -9,4 +9,9 @@ build:
 
 run: build
 	@echo "Running the project..."
-	cmake --build build
+	cmake --build build && ./build/src/VulkanApp
+
+rebuild: 
+	@echo "Rebuilding the project..."
+	$(MAKE) clean
+	$(MAKE) run

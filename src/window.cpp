@@ -4,17 +4,17 @@
 #include <iostream>
 
 namespace lve {
-LveWindow(int w, int h, const std::string name)
+LveWindow::LveWindow(int w, int h, const std::string name)
     : width(w), height(h), windowName(name) {
     LveWindow::initWindow();
 };
 
-~LveWindow() {
+LveWindow::~LveWindow() {
     glfwDestroyWindow(window);
     glfwTerminate();
 };
 
-void initWindow() {
+void LveWindow::initWindow() {
     if (!glfwInit()) {
         std::cerr << "glfwInit failed (is DISPLAY or WAYLAND_DISPLAY set?)\n";
         std::exit(EXIT_FAILURE);
@@ -32,7 +32,7 @@ void initWindow() {
 
     glfwShowWindow(window);
 };
-void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
+void LveWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
     if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
         throw std::runtime_error("failed to create window surface!");
     }

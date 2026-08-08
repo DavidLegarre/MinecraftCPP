@@ -1,16 +1,16 @@
-#include "first_app.hpp" Expand commentComment on line R2
 
+#include "app.hpp"
 // std
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
 int main() {
-    lve::FirstApp app{};
+    lve::App app{};
 
     try {
         app.run();
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return EXIT_FAILURE;
     }
