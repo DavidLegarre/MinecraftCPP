@@ -18,6 +18,7 @@ namespace render {
         // use private _readFile function
         vertexSource = readFile(vsPath);
         fragmentSource = readFile(fsPath);
+        // TODO: Compile shaders
     };
 
     Shader::~Shader() {
