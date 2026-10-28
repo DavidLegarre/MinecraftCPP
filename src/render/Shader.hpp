@@ -13,9 +13,13 @@ public:
   Shader(const Shader &) = delete;
   Shader &operator=(const Shader &) = delete;
 
-private:
-  GLint location(const std::string &name);
-  GLuint program = 0;
+  void bind() const;
+  void cleanUp() const;
+  void setMat4(const std::string &name, const glm::mat4 &value) const;
 
+private:
+  GLuint program = 0;
+  const GLuint fragmentShader = 0;
+  const GLuint vertexShader = 0;
 };
 } // namespace render
