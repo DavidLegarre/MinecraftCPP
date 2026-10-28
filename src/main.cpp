@@ -29,6 +29,7 @@ int main() {
     while (!window.shouldClose()) {
       window.clear(0.45f, 0.62f, 0.85f);
       mesh.draw();
+      shader.updateShaders();
       window.swapBuffers();
       window.pollEvents();
     }

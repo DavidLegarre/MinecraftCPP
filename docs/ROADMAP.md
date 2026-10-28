@@ -19,38 +19,76 @@ See `docs/SETUP_FEDORA.md`.
 
 ---
 
-## Milestone 2 — shader, mesh, camera, one cube
+## Milestone 2 — shaders, mesh, camera, one cube
 
-**Goal:** fly around a single cube with correct depth.
+Following [learnopengl Shaders](https://learnopengl.com/Getting-started/Shaders),
+then [Transformations](https://learnopengl.com/Getting-started/Transformations) and
+[Camera](https://learnopengl.com/Getting-started/Camera).
+
+### 2a — triangle + mesh  [done]
+
+`render/Shader` (compile, link, throw with the info log, RAII, non-copyable) and
+`render/Mesh` (VAO + VBO, positions only, `draw()`). `main` draws one triangle with
+identity matrices. Builds and runs.
+
+### 2b — uniforms and the shader class review
+
+Chapter material: `uniform` in GLSL, `glGetUniformLocation`, `glUniform*`, the
+`setBool/setInt/setFloat` helpers.
+
+Steps:
+
+1. Add `setVec3` to `Shader` for `uColor`. Without it the triangle stays black
+   because an unset `vec3` uniform reads as `(0,0,0)`.
+2. Decide on a uniform cache. The tutorial queries the location on every `set`
+   call. That is fine for one triangle and wrong for 1000 chunks. Add a
+   `std::unordered_map<std::string, GLint>` only when the draw count makes it hurt;
+   a shortcut comment marks the decision either way.
+3. Read the tutorial's shader class and note where ours differs:
+   - header-only vs `.hpp` + `.cpp` — split, so a header edit does not recompile the world
+   - prints to `stdout` and continues vs throws — throw, a broken program draws nothing
+   - no destructor vs `glDeleteProgram` — RAII
+   - copyable vs deleted copy — two owners of one GL id means a double delete
+4. Do the chapter's exercises: upside-down triangle, horizontal offset uniform,
+   pass `aPos` to the fragment shader as a varying.
+
+### 2c — vertex colors, interleaved attributes
+
+Chapter material: `in`/`out` varyings, `layout(location = N)`, stride and offset.
+
+Steps:
+
+1. Vertex becomes 6 floats: `x y z r g b`.
+2. Vertex shader gains `layout(location = 1) in vec3 aColor`, outputs
+   `out vec3 ourColor`.
+3. Fragment shader reads `in vec3 ourColor`.
+4. `glVertexAttribPointer(0, 3, ..., 6 * sizeof(float), nullptr)` and
+   `glVertexAttribPointer(1, 3, ..., 6 * sizeof(float), (void*)(3 * sizeof(float)))`.
+5. `Mesh` grows a second attribute. Keep the stride as a named constant, not a
+   repeated literal — the same number now appears in three places.
+
+### 2d — depth, camera, one cube
 
 Files to create:
 
 ```
-src/render/Shader.hpp/.cpp    compile + link vertex/fragment from file, cache uniform locations
-src/render/Mesh.hpp/.cpp      VAO + VBO + EBO upload and draw
 src/render/Camera.hpp/.cpp    position + yaw/pitch -> view and projection matrices
-shaders/basic.vert             gl_Position = projection * view * model * vec4(pos, 1.0)
-shaders/basic.frag             flat color out
 ```
 
 Steps:
 
-1. `Shader::Shader(vsPath, fsPath)` reads both files, compiles, links, throws with the
-   GL info log on any failure. Cache `glGetUniformLocation` results by name.
-2. `Mesh` takes `std::vector<float>` + `std::vector<uint32_t>`, sets up VAO/VBO/EBO,
-   exposes `draw()`.
-3. `Camera` holds position, yaw, pitch. `view()` uses `glm::lookAt`, `projection(aspect)`
+1. `Camera` holds position, yaw, pitch. `view()` uses `glm::lookAt`, `projection(aspect)`
    uses `glm::perspective(glm::radians(70.0f), aspect, 0.1f, 1000.0f)`.
-   Aspect comes from the framebuffer size every frame.
-4. Cube: 36 position-only vertices, 36 indices. Model matrix `glm::mat4(1.0f)`.
-5. `glEnable(GL_DEPTH_TEST)` and `glEnable(GL_CULL_FACE)` once after context creation.
-6. Add WASD + mouse look with a free-fly camera, no collision.
+2. Cube: 36 vertices, 36 indices, EBO in `Mesh`.
+3. `glEnable(GL_DEPTH_TEST)` and `glEnable(GL_CULL_FACE)` once after context creation.
+4. WASD + mouse look, free-fly, no collision.
 
 **Done when:** the cube has correct depth, back faces are culled, and you can orbit it.
 
-Gotchas: move `Window::clear()` into a render-side call once `render/` exists — window
-layer should not call `glClear` forever. Request `GLFW_OPENGL_CORE_PROFILE` already done;
-no fixed-function calls (`glBegin`, `glMatrixMode`) will work.
+Gotchas: `Window::clear()` should move to a render-side call once `render/` owns drawing.
+No fixed-function calls (`glBegin`, `glMatrixMode`) work in a core profile. An unset
+matrix uniform is a zero matrix, which collapses every vertex to `w = 0` — silent black
+screen. Bind the program before setting uniforms; `glUniform*` writes to the current one.
 
 ---
 

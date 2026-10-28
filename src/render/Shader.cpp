@@ -1,5 +1,6 @@
 #include "render/Shader.hpp"
 
+#include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
@@ -82,6 +83,14 @@ void Shader::cleanUp() const {
 void Shader::setMat4(const std::string &name, const glm::mat4 &value) const {
   glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE,
                      glm::value_ptr(value));
+}
+
+void Shader::updateShaders() const {
+  float timeValue = glfwGetTime();
+  float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+  int vertexColorLocation = glGetUniformLocation(program, "ourColor");
+  glUseProgram(program);
+  glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 }
 
 } // namespace render

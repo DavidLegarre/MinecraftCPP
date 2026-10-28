@@ -16,6 +16,7 @@ public:
   void bind() const;
   void cleanUp() const;
   void setMat4(const std::string &name, const glm::mat4 &value) const;
+  void updateShaders() const;
 
 private:
   GLuint program = 0;
